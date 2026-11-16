@@ -2,9 +2,8 @@
 -- Part 2 (22 marks). Engine: MySQL 8 (MySQL Workbench).
 -- SQLiteOnline: skip CREATE DATABASE / USE; everything else runs unchanged.
 
--- =====================================================================
--- Task 2.1 — Build and load the database
--- =====================================================================
+-- Task 2.1 — Building + loading
+
 
 -- 2.1.1 Create database & tables
 CREATE DATABASE noshowguard;
@@ -22,19 +21,17 @@ CREATE TABLE appointments (
   FOREIGN KEY (clinic_id) REFERENCES clinics(clinic_id));
 
 -- 2.1.2 Load: run `data warehouse/load_data.sql` now (8 clinics first, then 990 appointments), then verify
-SELECT COUNT(*) AS clinics FROM clinics;                                     -- expect 8
-SELECT COUNT(*) AS appointments, SUM(no_show) AS no_shows FROM appointments; -- expect 990 | 218
+SELECT COUNT(*) AS clinics FROM clinics;
+SELECT COUNT(*) AS appointments, SUM(no_show) AS no_shows FROM appointments;
 
 -- 2.1.3 Duplicate-key insert: a second row with appointment_id 'A0001' must be rejected by the PRIMARY KEY
 INSERT INTO appointments VALUES ('A0001','P509','C05','2025-01-24','2025-01-25',60,'F',18.0,850,'Phone','Consultation','Yes',1,'No-Show',1,1);
 -- Error (replace with the exact text from your run):
 -- MySQL:  Error Code: 1062. Duplicate entry 'A0001' for key 'appointments.PRIMARY'
--- SQLite: UNIQUE constraint failed: appointments.appointment_id
 
 
--- =====================================================================
+
 -- Task 2.2 — No-show rate by clinic
--- =====================================================================
 
 -- 2.2.1 Clinics with >= 95 appointments
 SELECT c.clinic_name,

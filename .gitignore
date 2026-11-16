@@ -6,3 +6,5 @@ __pycache__/
 planner.canvas
 
 rejected_rows.json
+
+/02_pandas_crosscheck.ipynb
